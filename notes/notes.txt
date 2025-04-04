@@ -1,0 +1,183 @@
+//page.tsx makes the rooutes accessible for all the others the file-based routing wont work here that is why we use concpet of 
+// File Colocation
+
+
+
+// Private folders
+
+// A way to tell Next.js, "Hey, this folder is just for internal stuff - don't include it in the routing system."
+
+// The folder and all its subfolders are excluded from routing
+
+// Add an underscore at the start of the folder name
+
+// Square brackets in next are treated as a dynamic segment making our routes dynamic and flexible
+
+1. Nested Routes (18:57)
+What are Nested Routes?
+In Next.js, your file and folder structure inside the app or pages directory determines the URLs (routes) in your application. Nested routes simply mean organizing pages inside folders to create structured URLs.
+
+Example:
+Suppose you have the following file structure:
+
+pgsql
+Copy
+Edit
+/pages
+  ├── index.js             →   "/"
+  ├── about.js             →   "/about"
+  ├── blog
+  │   ├── index.js         →   "/blog"
+  │   ├── post.js          →   "/blog/post"
+How It Works:
+index.js in the root (/pages) becomes the homepage (/).
+
+about.js becomes the about page (/about).
+
+The blog/ folder creates a nested route, where:
+
+blog/index.js maps to /blog.
+
+blog/post.js maps to /blog/post.
+
+💡 Key Takeaway:
+You can create nested URLs by placing files inside folders. No extra configuration is needed!
+
+2. Dynamic Routes (21:50)
+What are Dynamic Routes?
+Static routes (/about, /blog/post) work for fixed pages, but what if you need dynamic pages? For example:
+
+/products/1
+
+/products/2
+
+/products/3
+
+Instead of creating separate files like products1.js, products2.js, you can use dynamic routes by wrapping a filename in square brackets ([]).
+
+Example:
+Create a dynamic route inside pages/products/[id].js:
+
+jsx
+Copy
+Edit
+// pages/products/[id].js
+import { useRouter } from 'next/router';
+
+export default function ProductPage() {
+  const router = useRouter();
+  const { id } = router.query;  // Get the dynamic part from URL
+
+  return <h1>Product ID: {id}</h1>;
+}
+How It Works:
+/products/1 → Renders ProductPage with id = 1.
+
+/products/42 → Renders ProductPage with id = 42.
+
+/products/abc → Renders ProductPage with id = abc.
+
+💡 Key Takeaway:
+Dynamic routes let you create flexible pages without manually adding a new file for every product, post, or user!
+
+3. Nested Dynamic Routes (27:49)
+What are Nested Dynamic Routes?
+Sometimes, dynamic routes need multiple levels. For example, if you have:
+
+/category/electronics/product/123
+
+/category/fashion/product/456
+
+You need nested dynamic routes.
+
+Example:
+Structure:
+
+bash
+Copy
+Edit
+/pages
+  ├── category
+  │   ├── [category].js              →   "/category/electronics"
+  │   ├── [category]
+  │   │   ├── product
+  │   │   │   ├── [id].js            →   "/category/electronics/product/123"
+📌 Code for /category/[category]/product/[id].js
+
+jsx
+Copy
+Edit
+// pages/category/[category]/product/[id].js
+import { useRouter } from 'next/router';
+
+export default function ProductPage() {
+  const router = useRouter();
+  const { category, id } = router.query;  
+
+  return <h1>Category: {category}, Product ID: {id}</h1>;
+}
+How It Works:
+/category/electronics/product/123 → Shows Category: electronics, Product ID: 123.
+
+/category/fashion/product/456 → Shows Category: fashion, Product ID: 456.
+
+💡 Key Takeaway:
+Nested dynamic routes help when you have multiple levels of dynamic data (like categories and products).
+
+4. Catch-All Routes (31:23)
+What are Catch-All Routes?
+Catch-all routes allow you to match multiple URL segments with a single file. This is useful when you don't know how many segments will be in the URL.
+
+Example:
+Create a file like this:
+
+lua
+Copy
+Edit
+/pages/docs/[[...slug]].js
+📌 Code for /docs/[[...slug]].js
+
+jsx
+Copy
+Edit
+// pages/docs/[[...slug]].js
+import { useRouter } from 'next/router';
+
+export default function DocsPage() {
+  const router = useRouter();
+  const { slug } = router.query;
+
+  return <h1>Viewing: {slug ? slug.join(" / ") : "Home"}</h1>;
+}
+How It Works:
+/docs → Viewing: Home
+
+/docs/intro → Viewing: intro
+
+/docs/nextjs/routing/basics → Viewing: nextjs / routing / basics
+
+💡 Key Takeaway:
+
+...slug → Matches multiple segments (/docs/nextjs/routing).
+
+[[...slug]] → Optional catch-all (so /docs works too).
+
+Final Summary
+Concept	Example URL	File Structure
+Nested Routes	/blog/post	/pages/blog/post.js
+Dynamic Routes	/products/42	/pages/products/[id].js
+Nested Dynamic Routes	/category/fashion/product/456	/pages/category/[category]/product/[id].js
+Catch-All Routes	/docs/nextjs/routing/basics	/pages/docs/[[...slug]].js
+
+
+Private folders are super useful for a bunch of things:
+
+Keeping your UI logic separate from routing logic
+
+Having a consistent way to organize internal files in your project
+
+Making it easier to group related files in your code editor
+
+Avoiding potential naming conflicts with future Next.js file naming conventions
+
+If you actually want an underscore in your URL, use "%5F" instead. That's just the URL-encoded version of an underscore.

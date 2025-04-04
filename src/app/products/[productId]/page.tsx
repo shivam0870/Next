@@ -8,4 +8,3 @@ export default async function ProductDetails({
     return <h1>Details About Products {productId}</h1>;
 }
 
-// Square brackets in next are treated as a dynamic segment making our routes dynamic and flexible
