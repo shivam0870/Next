@@ -181,3 +181,29 @@ Making it easier to group related files in your code editor
 Avoiding potential naming conflicts with future Next.js file naming conventions
 
 If you actually want an underscore in your URL, use "%5F" instead. That's just the URL-encoded version of an underscore.
+
+
+
+
+
+
+
+
+Layouts -----> 
+
+localhost:3000 - route - 
+Header 
+
+Home 
+
+Footer 
+
+localhost:3000/profile -> 
+
+Header 
+
+Profile 
+
+Footer
+
+The content inside the children prop is replaced by the content of the page. The children prop is a special prop in Next.js that allows you to pass content from a page to a layout component. This is useful for pages that share a common layout , but have different content. 
