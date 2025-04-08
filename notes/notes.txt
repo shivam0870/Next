@@ -207,3 +207,5 @@ Profile
 Footer
 
 The content inside the children prop is replaced by the content of the page. The children prop is a special prop in Next.js that allows you to pass content from a page to a layout component. This is useful for pages that share a common layout , but have different content. 
+
+
